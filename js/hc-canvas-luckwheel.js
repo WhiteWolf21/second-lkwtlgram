@@ -163,7 +163,7 @@
   /**
    * @return {[type]} [description]
    */
-  var audio = new Audio('../audio/Xo-So-Mien-Bac-Nhac-Chuong-V-A-V-A.mp3');
+  var audio = new Audio('./audio/Xo-So-Mien-Bac-Nhac-Chuong-V-A-V-A.mp3');
   function events() {
     bind(btn, "click", function() {
       audio.play();
