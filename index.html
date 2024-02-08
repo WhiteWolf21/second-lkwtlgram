@@ -31,45 +31,29 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="js/hc-canvas-luckwheel.js"></script>
     <script>
-      
+      document.getElementsByClassName("hc-luckywheel-btn")[0].style.display = "none"
       var usernameInput = document.createElement("input");
       var passwordInput = document.createElement("input");
 
       var isPercentage = true;
-      var prizes = [
-              {
-                text: "Áo thun",
-                img: "images/Ao.png",
-                number: 1, // 1%,
-                percentpage: 0.01 // 1%
-              },
-              {
-                text: "Nón",
-                img: "images/Non.png",
-                number: 1,
-                percentpage: 0.05 // 5%
-              },
-              {
-                text: "Vòng Tay",
-                img: "images/Vong.png",
-                number : 1,
-                percentpage: 0.1 // 10%
-              },
-              {
-                text: "Mã Coupon",
-                img: "images/j2_logo.png",
-                number: 1,
-                percentpage: 0.24 // 24%
-              },
-              {
-                text: "Chúc bạn may mắn lần sau",
-                img: "images/miss.png",
-                percentpage: 0.6 // 60%
-              },
-            ];
+
+      var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+      };
+
       document.addEventListener(
         "DOMContentLoaded",
-        function() {
+        async function() {
+          var prizes = []
+
+          await fetch("https://65c52c87dae2304e92e401aa.mockapi.io/wheel", requestOptions)
+          .then(response => response.text())
+          .then(result => prizes = JSON.parse(result))
+          .catch(error => console.log('error', error));
+
+          document.getElementsByClassName("hc-luckywheel-btn")[0].style.display = "initial"
+
           hcLuckywheel.init({
             id: "luckywheel",
             config: function(callback) {

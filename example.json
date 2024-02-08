@@ -1,0 +1,31 @@
+[
+  {
+    "text": "Áo thun",
+    "img": "images/Ao.png",
+    "number": 1,
+    "percentpage": 0.01
+  },
+  {
+    "text": "Nón",
+    "img": "images/Non.png",
+    "number": 1,
+    "percentpage": 0.05
+  },
+  {
+    "text": "Vòng Tay",
+    "img": "images/Vong.png",
+    "number ": 1,
+    "percentpage": 0.1
+  },
+  {
+    "text": "Mã Coupon",
+    "img": "images/lg.png",
+    "number": 1,
+    "percentpage": 0.24
+  },
+  {
+    "text": "Chúc bạn may mắn lần sau",
+    "img": "images/miss.png",
+    "percentpage": 0.6
+  }
+]
