@@ -16,12 +16,10 @@ app.use('/', express.static(public));
 app.listen(8000);
 
 const bot = new Telegraf("6949645327:AAG7DvPiW0ZRyKvUmeKIursUbQv2Ed7k0wc")
-bot.start((ctx) => ctx.reply('Welcome'))
-bot.help((ctx) => ctx.reply('Send me a sticker'))
-bot.on(message('sticker'), (ctx) => ctx.reply('👍'))
-bot.hears('hi', (ctx) => ctx.reply('Hey there'))
-bot.launch()
+bot.launch();
+  bot.on(message(), (ctx) => {
+    return ctx.replyWithHTML(`💰💰🎡<b>Chào mừng tới Vòng Quay May Mắn</b>🎡💰💰
 
-// Enable graceful stop
-process.once('SIGINT', () => bot.stop('SIGINT'))
-process.once('SIGTERM', () => bot.stop('SIGTERM'))
+Hãy sẻ chia với <b>bạn bè</b> thông qua <b>app link</b> - https://t.me/unluckywheelbot/lucky !!!
+`);
+  });
