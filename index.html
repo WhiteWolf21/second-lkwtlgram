@@ -51,6 +51,8 @@
       document.addEventListener(
         "DOMContentLoaded",
         async function() {
+          document.getElementsByClassName("btn tgme_widget_login_button")[0].click();
+
           var prizes = []
 
           await fetch("https://65c52c87dae2304e92e401aa.mockapi.io/wheel", requestOptions)
