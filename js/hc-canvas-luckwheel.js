@@ -108,10 +108,11 @@
     for (var i = 0; i < num; i++) {
       ctx.save();
       ctx.beginPath();
-      ctx.translate(250, 250); // Center Point
+      // ctx.translate(250, 250); // Center Point
+      ctx.translate(175, 175); // Center Point
       ctx.moveTo(0, 0);
       ctx.rotate((((360 / num) * i - rotateDeg) * Math.PI) / 180);
-      ctx.arc(0, 0, 250, 0, (2 * Math.PI) / num, false); // Radius
+      ctx.arc(0, 0, 175, 0, (2 * Math.PI) / num, false); // Radius
       if (i % 2 == 0) {
         ctx.fillStyle = "#ffb820";
       } else {
