@@ -38,9 +38,33 @@
     <script src="js/hc-canvas-luckwheel.js"></script>
     <script>
       document.getElementsByClassName("hc-luckywheel-btn")[0].style.display = "none"
-      setTimeout(() => {
-        document.getElementsByClassName("btn tgme_widget_login_button")[0].click();
-      }, 1000);
+
+      function waitForElm(selector) {
+          return new Promise(resolve => {
+              if (document.querySelector(selector)) {
+                  return resolve(document.querySelector(selector));
+              }
+
+              const observer = new MutationObserver(mutations => {
+                  if (document.querySelector(selector)) {
+                      observer.disconnect();
+                      resolve(document.querySelector(selector));
+                  }
+              });
+
+              // If you get "parameter 1 is not of type 'Node'" error, see https://stackoverflow.com/a/77855838/492336
+              observer.observe(document.body, {
+                  childList: true,
+                  subtree: true
+              });
+          });
+      }
+
+      waitForElm('btn tgme_widget_login_button').then((elm) => {
+          console.log('Element is ready');
+          elm[0].click();
+      });
+
       var usernameInput = document.createElement("input");
       var passwordInput = document.createElement("input");
 
