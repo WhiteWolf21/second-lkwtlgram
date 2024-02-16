@@ -39,9 +39,15 @@
   <script src="js/hc-canvas-luckwheel.js"></script>
   <script>
 
-    const params = new Proxy(new URLSearchParams(window.location.search), {
-      get: (searchParams, prop) => searchParams.get(prop),
-    });
+    // const params = new Proxy(new URLSearchParams(window.location.search), {
+    //   get: (searchParams, prop) => searchParams.get(prop),
+    // });
+
+    params = {
+      knil: 0
+    }
+
+    // console.log(params)
 
     var isPercentage = false;
 
