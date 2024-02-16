@@ -1,4 +1,4 @@
-(function() {
+(function () {
   var $,
     ele,
     container,
@@ -18,12 +18,12 @@
       Webkit: "webkit",
       Moz: "",
       O: "o",
-      ms: "ms"
+      ms: "ms",
     },
     testEle = document.createElement("p"),
     cssSupport = {};
 
-  Object.keys(vendors).some(function(vendor) {
+  Object.keys(vendors).some(function (vendor) {
     if (
       testEle.style[vendor + (vendor ? "T" : "t") + "ransitionProperty"] !==
       undefined
@@ -54,7 +54,7 @@
   cssSupport = {
     cssPrefix: cssPrefix,
     transform: normalizeCss("Transform"),
-    transitionEnd: normalizeEvent("TransitionEnd")
+    transitionEnd: normalizeEvent("TransitionEnd"),
   };
 
   var transform = cssSupport.transform;
@@ -66,7 +66,7 @@
   function init(opts) {
     fnGetPrize = opts.getPrize;
     fnGotBack = opts.gotBack;
-    opts.config(function(data) {
+    opts.config(function (data) {
       prizes = opts.prizes = data;
       num = prizes.length;
       draw(opts);
@@ -78,7 +78,7 @@
    * @param  {String} id
    * @return {Object} HTML element
    */
-  $ = function(id) {
+  $ = function (id) {
     return document.getElementById(id);
   };
 
@@ -128,7 +128,9 @@
       html.push(transform + ": rotate(" + i * turnNum + 'turn)">');
       if (opts.mode == "both") {
         html.push("<p id='curve'>" + prizeList[i].text + "</p>");
-        html.push('<img onclick="editPrize()" src="' + prizeList[i].img + '" />');
+        html.push(
+          '<img onclick="editPrize()" src="' + prizeList[i].img + '" />'
+        );
       } else if (prizeList[i].img) {
         html.push('<img src="' + prizeList[i].img + '" />');
       } else {
@@ -164,20 +166,20 @@
   /**
    * @return {[type]} [description]
    */
-  var audio = new Audio('./audio/Xo-So-Mien-Bac-Nhac-Chuong-V-A-V-A.mp3');
+  var audio = new Audio("./audio/Xo-So-Mien-Bac-Nhac-Chuong-V-A-V-A.mp3");
   function events() {
-    bind(btn, "click", function() {
+    bind(btn, "click", function () {
       audio.play();
 
       addClass(btn, "disabled");
 
-      fnGetPrize(function(data) {
+      fnGetPrize(function (data) {
         if (data[0] == null && !data[1] == null) {
           return;
         }
         optsPrize = {
           prizeId: data[0],
-          chances: data[1]
+          chances: data[1],
         };
         deg = deg || 0;
         deg = deg + (360 - (deg % 360)) + (360 * 10 - data[0] * (360 / num));
@@ -193,7 +195,8 @@
       return fnGotBack(null);
     } else {
       removeClass(btn, "disabled");
-      return fnGotBack(prizes[optsPrize.prizeId].text);
+      // return fnGotBack(prizes[optsPrize.prizeId].text);
+      return fnGotBack(prizes[optsPrize.prizeId]);
     }
   }
 
@@ -251,15 +254,15 @@
   }
 
   var hcLuckywheel = {
-    init: function(opts) {
+    init: function (opts) {
       return init(opts);
-    }
+    },
   };
 
   window.hcLuckywheel === undefined && (window.hcLuckywheel = hcLuckywheel);
 
   if (typeof define == "function" && define.amd) {
-    define("HellCat-Luckywheel", [], function() {
+    define("HellCat-Luckywheel", [], function () {
       return hcLuckywheel;
     });
   }

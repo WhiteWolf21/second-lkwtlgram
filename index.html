@@ -1,190 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vòng Xoay May Mắn</title>
-    <link rel="stylesheet" href="css/typo/typo.css" />
-    <link rel="stylesheet" href="css/hc-canvas-luckwheel.css" />
-    <style>
-      .hc-luckywheel{
-        position:fixed;
-        top: 50%;
-        left: 50%;
-        margin-top: -150px;
-        margin-left: -150px;
-      }
-    </style>
-  </head>
-  <body class="bg">
-    <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="unluckywheelbot" data-size="medium" data-onauth="onTelegramAuth(user)"></script>
-    <script type="text/javascript">
-      function onTelegramAuth(user) {
-        alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
-      }
-    </script>
-    <div class="wrapper typo" id="wrapper">
-      <section id="luckywheel" class="hc-luckywheel">
-        <div class="hc-luckywheel-container">
-          <canvas class="hc-luckywheel-canvas" width="300px" height="300px"
-            >Vòng Xoay May Mắn</canvas
-          >
-        </div>
-        <a class="hc-luckywheel-btn" href="javascript:;">Xoay</a>
-      </section>
-    </div>
-</style>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    <script src="js/hc-canvas-luckwheel.js"></script>
-    <script>
-      document.getElementsByClassName("hc-luckywheel-btn")[0].style.display = "none"
 
-      function waitForElm(selector) {
-          return new Promise(resolve => {
-              if (document.querySelector(selector)) {
-                  return resolve(document.querySelector(selector));
-              }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vòng Xoay May Mắn</title>
+  <link rel="stylesheet" href="css/typo/typo.css" />
+  <link rel="stylesheet" href="css/hc-canvas-luckwheel.css" />
+  <style>
+    .hc-luckywheel {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      margin-top: -150px;
+      margin-left: -165px;
+    }
+  </style>
+</head>
 
-              const observer = new MutationObserver(mutations => {
-                  if (document.querySelector(selector)) {
-                      observer.disconnect();
-                      resolve(document.querySelector(selector));
-                  }
-              });
+<body class="bg">
+  <!-- <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="unluckywheelbot"
+    data-size="medium" data-onauth="onTelegramAuth(user)"></script>
+  <script type="text/javascript">
+    function onTelegramAuth(user) {
+      alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
+    }
+  </script> -->
+  <div class="wrapper typo" id="wrapper">
+    <section id="luckywheel" class="hc-luckywheel">
+      <div class="hc-luckywheel-container">
+        <canvas class="hc-luckywheel-canvas" width="300px" height="300px">Vòng Xoay May Mắn</canvas>
+      </div>
+      <a class="hc-luckywheel-btn" href="javascript:;">Xoay</a>
+    </section>
+  </div>
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  <script src="js/hc-canvas-luckwheel.js"></script>
+  <script>
 
-              // If you get "parameter 1 is not of type 'Node'" error, see https://stackoverflow.com/a/77855838/492336
-              observer.observe(document.body, {
-                  childList: true,
-                  subtree: true
-              });
-          });
-      }
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+      get: (searchParams, prop) => searchParams.get(prop),
+    });
 
-      waitForElm('.tgme_widget_login_button').then((elm) => {
-          console.log('Element is ready');
-          elm[0].click();
-      });
+    var isPercentage = false;
 
-      var usernameInput = document.createElement("input");
-      var passwordInput = document.createElement("input");
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    };
 
-      var isPercentage = true;
+    document.addEventListener(
+      "DOMContentLoaded",
+      async function () {
 
-      var requestOptions = {
-        method: 'GET',
-        redirect: 'follow'
-      };
+        var currentIP = ""
 
-      document.addEventListener(
-        "DOMContentLoaded",
-        async function() {
+        await fetch("https://api.ipify.org/?format=json", requestOptions)
+          .then(response => response.text())
+          .then(result => currentIP = JSON.parse(result))
+          .catch(error => console.log('error', error));
 
-          var prizes = []
+        var ips = []
 
-          await fetch("https://65c52c87dae2304e92e401aa.mockapi.io/wheel", requestOptions)
+        await fetch("https://65cdb19cc715428e8b3ed5ca.mockapi.io/prizes", requestOptions)
+          .then(response => response.text())
+          .then(result => ips = JSON.parse(result))
+          .catch(error => console.log('error', error));
+
+        const checkIP = ips => ips.ip === currentIP.ip && ips.knil === params.knil;
+        // console.log(currentIP.ip)
+        if (ips.some(checkIP)) {
+          document.getElementById("luckywheel").remove();
+          Swal.fire({
+            icon: "error",
+            title: "Hết Lượt !!!",
+            text: "Bạn chỉ được phép xoay 1 lần duy nhất.",
+            showCancelButton: false,
+            showConfirmButton: false,
+            allowOutsideClick: false
+          })
+        }
+
+        var prizes = []
+
+        await fetch("https://65cdb19cc715428e8b3ed5ca.mockapi.io/items", requestOptions)
           .then(response => response.text())
           .then(result => prizes = JSON.parse(result))
           .catch(error => console.log('error', error));
 
-          document.getElementsByClassName("hc-luckywheel-btn")[0].style.display = "initial"
+        settings = prizes[0]
 
-          hcLuckywheel.init({
-            id: "luckywheel",
-            config: function(callback) {
-              callback &&
-                callback(prizes);
-            },
-            mode : "both",
-            getPrize: function(callback) {
-              var rand = randomIndex(prizes);
-              var chances = rand;
-              callback && callback([rand, chances]);
-            },
-            gotBack: function(data) {
-              if(data == null){
-                Swal.fire(
-                  'Chương trình kết thúc',
-                  'Đã hết phần thưởng',
-                  'error'
-                )
-              } else if (data == 'Hẹn bạn lần sau'){
-                let audio = new Audio('./audio/AWW Sound Effect (NO COPYRIGHT).mp3');
-                audio.play();
-                Swal.fire(
-                  'Bạn không trúng thưởng',
-                  data,
-                  'error'
-                )
-              } else{
-                let audio = new Audio('./audio/Wow sound effect (no copyright).mp3');
-                audio.play();
-                Swal.fire(
-                  'Đã trúng giải',
-                  data,
-                  'success'
-                )
-              }
+        document.getElementsByClassName("bg")[0].style.backgroundImage = `url(${settings["background"]})`
+
+        prizes = prizes.slice(1)
+        // console.log(prizes)
+        document.getElementsByClassName("hc-luckywheel-btn")[0].style.display = "initial"
+
+        hcLuckywheel.init({
+          id: "luckywheel",
+          config: function (callback) {
+            callback &&
+              callback(prizes);
+          },
+          mode: "both",
+          getPrize: function (callback) {
+            var rand = randomIndex(prizes);
+            var chances = rand;
+            callback && callback([rand, chances]);
+          },
+          gotBack: function (data) {
+            if (data.text == null) {
+              Swal.fire(
+                'Chương trình kết thúc',
+                'Đã hết phần thưởng',
+                'error'
+              )
+            } else if (data.text == 'Hẹn bạn lần sau') {
+              let audio = new Audio('./audio/AWW Sound Effect (NO COPYRIGHT).mp3');
+              audio.play();
+              Swal.fire({
+                title: 'Bạn không trúng thưởng',
+                text: data.text,
+                icon: 'error',
+                allowOutsideClick: false
+              }).then((result) => {
+                // console.log(result)
+                if (result.isConfirmed) {
+                  window.location.reload();
+                }
+              })
+            } else {
+              let audio = new Audio('./audio/Wow sound effect (no copyright).mp3');
+              audio.play();
+
+              Swal.fire({
+                title: 'Đã trúng giải',
+                text: data.text,
+                icon: 'success',
+                allowOutsideClick: false
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.reload();
+                }
+              })
+
             }
-          });
-        },
-        false
-      );
-      function randomIndex(prizes){
-        if(isPercentage){
-          var counter = 1;
-          for (let i = 0; i < prizes.length; i++) {
-            if(prizes[i].number == 0){
-              counter++
-            }
+
+            data["ip"] = currentIP.ip
+            data["knil"] = params.knil
+
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
+            var raw = JSON.stringify(data);
+
+            var requestOptions = {
+              method: 'POST',
+              headers: myHeaders,
+              body: raw,
+              redirect: 'follow'
+            };
+
+            fetch("https://65cdb19cc715428e8b3ed5ca.mockapi.io/prizes", requestOptions)
+              .then(response => response.text())
+              .then(result => console.log(result))
+              .catch(error => console.log('error', error));
           }
-          if(counter == prizes.length){
-            return null
-          }
-          let rand = Math.random();
-          let prizeIndex = null;
-          console.log(rand);
-          switch (true) {
-            case rand < prizes[4].percentpage:
-              prizeIndex = 4 ;
-              break;
-            case rand < prizes[4].percentpage + prizes[3].percentpage:
-              prizeIndex = 3;
-              break;
-            case rand < prizes[4].percentpage + prizes[3].percentpage + prizes[2].percentpage:
-              prizeIndex = 2;
-              break;
-            case rand < prizes[4].percentpage + prizes[3].percentpage + prizes[2].percentpage + prizes[1].percentpage:
-              prizeIndex = 1;
-              break;  
-            case rand < prizes[4].percentpage + prizes[3].percentpage + prizes[2].percentpage + prizes[1].percentpage  + prizes[0].percentpage:
-              prizeIndex = 0;
-              break;  
-          }
-          if(prizes[prizeIndex].number != 0){
-            prizes[prizeIndex].number = prizes[prizeIndex].number - 1
-            return prizeIndex
-          }else{
-            return randomIndex(prizes)
-          }
-        }else{
-          var counter = 0;
-          for (let i = 0; i < prizes.length; i++) {
-            if(prizes[i].number == 0){
-              counter++
-            }
-          }
-          if(counter == prizes.length){
-            return null
-          }
-          var rand = (Math.random() * (prizes.length)) >>> 0;
-          if(prizes[rand].number != 0){
-            prizes[rand].number = prizes[rand].number - 1
-            return rand
-          }else{
-            return randomIndex(prizes)
+        });
+      },
+      false
+    );
+    function randomIndex(prizes) {
+      if (isPercentage) {
+        var counter = 1;
+        for (let i = 0; i < prizes.length; i++) {
+          if (prizes[i].number == 0) {
+            counter++
           }
         }
+        if (counter == prizes.length) {
+          return null
+        }
+        let rand = Math.random();
+        let prizeIndex = null;
+        // console.log(rand);
+        switch (true) {
+          case rand < prizes[4].percentpage:
+            prizeIndex = 4;
+            break;
+          case rand < prizes[4].percentpage + prizes[3].percentpage:
+            prizeIndex = 3;
+            break;
+          case rand < prizes[4].percentpage + prizes[3].percentpage + prizes[2].percentpage:
+            prizeIndex = 2;
+            break;
+          case rand < prizes[4].percentpage + prizes[3].percentpage + prizes[2].percentpage + prizes[1].percentpage:
+            prizeIndex = 1;
+            break;
+          case rand < prizes[4].percentpage + prizes[3].percentpage + prizes[2].percentpage + prizes[1].percentpage + prizes[0].percentpage:
+            prizeIndex = 0;
+            break;
+        }
+        if (prizes[prizeIndex].number != 0) {
+          prizes[prizeIndex].number = prizes[prizeIndex].number - 1
+          return prizeIndex
+        } else {
+          return randomIndex(prizes)
+        }
+      } else {
+        return parseInt(params.knil)
+        // var counter = 0;
+        // for (let i = 0; i < prizes.length; i++) {
+        //   if (prizes[i].number == 0) {
+        //     counter++
+        //   }
+        // }
+        // if (counter == prizes.length) {
+        //   return null
+        // }
+        // var rand = (Math.random() * (prizes.length)) >>> 0;
+        // if (prizes[rand].number != 0) {
+        //   prizes[rand].number = prizes[rand].number - 1
+        //   return rand
+        // } else {
+        //   return randomIndex(prizes)
+        // }
       }
-    </script>
-  </body>
+    }
+  </script>
+</body>
+
 </html>
