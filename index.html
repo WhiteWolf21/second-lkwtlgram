@@ -54,6 +54,19 @@
       "DOMContentLoaded",
       async function () {
 
+        var prizes = []
+
+        await fetch("https://65cdb19cc715428e8b3ed5ca.mockapi.io/items", requestOptions)
+          .then(response => response.text())
+          .then(result => prizes = JSON.parse(result))
+          .catch(error => console.log('error', error));
+
+        settings = prizes[0]
+
+        document.getElementsByClassName("bg")[0].style.backgroundImage = `url(${settings["background"]})`
+
+        params.knil = settings["id"]
+
         var currentIP = ""
 
         await fetch("https://api.ipify.org/?format=json", requestOptions)
@@ -81,17 +94,6 @@
             allowOutsideClick: false
           })
         }
-
-        var prizes = []
-
-        await fetch("https://65cdb19cc715428e8b3ed5ca.mockapi.io/items", requestOptions)
-          .then(response => response.text())
-          .then(result => prizes = JSON.parse(result))
-          .catch(error => console.log('error', error));
-
-        settings = prizes[0]
-
-        document.getElementsByClassName("bg")[0].style.backgroundImage = `url(${settings["background"]})`
 
         prizes = prizes.slice(1)
         // console.log(prizes)
