@@ -169,7 +169,7 @@
   var audio = new Audio("./audio/Xo-So-Mien-Bac-Nhac-Chuong-V-A-V-A.mp3");
   function events() {
     bind(btn, "click", function () {
-      audio.play();
+      // audio.play();
 
       addClass(btn, "disabled");
 
@@ -190,7 +190,7 @@
   }
 
   function eGot() {
-    audio.pause();
+    // audio.pause();
     if (optsPrize.chances == null) {
       return fnGotBack(null);
     } else {
