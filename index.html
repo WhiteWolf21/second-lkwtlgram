@@ -129,7 +129,7 @@
               audio.play();
               Swal.fire({
                 title: 'Bạn không trúng thưởng',
-                text: data.text.replace(/(&nbsp;|<([^>]+)>)/ig, ""),
+                text: data.text.replace(/(&nbsp;|<([^>]+)>)/ig, " "),
                 icon: 'error',
                 allowOutsideClick: false
               }).then((result) => {
@@ -144,7 +144,7 @@
 
               Swal.fire({
                 title: 'Đã trúng giải',
-                text: data.text.replace(/(&nbsp;|<([^>]+)>)/ig, ""),
+                text: data.text.replace(/(&nbsp;|<([^>]+)>)/ig, " "),
                 icon: 'success',
                 allowOutsideClick: false
               }).then((result) => {
